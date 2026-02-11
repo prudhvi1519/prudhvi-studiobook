@@ -9,12 +9,24 @@ import { PROJECTS, Project } from '../../data/projects';
 import { useState } from 'react';
 import CaseStudyOverlay from './CaseStudyOverlay';
 import { cn } from '../../lib/cn';
+import { useCursor } from '../core/cursor/useCursor';
 
 export default function Projects() {
     const [selectedProject, setSelectedProject] = useState<Project | null>(null);
+    const { setLabel, setActive, setMode, reset } = useCursor();
 
     const handleProjectClick = (project: Project) => {
         setSelectedProject(project);
+    };
+
+    const handleCardEnter = () => {
+        setActive(true);
+        setMode('label');
+        setLabel('View');
+    };
+
+    const handleCardLeave = () => {
+        reset();
     };
 
     return (
@@ -35,11 +47,13 @@ export default function Projects() {
                                         <Card
                                             key={project.id}
                                             onClick={() => handleProjectClick(project)}
+                                            onMouseEnter={handleCardEnter}
+                                            onMouseLeave={handleCardLeave}
                                             className={cn(
                                                 "group relative overflow-hidden flex flex-col justify-end p-6 transition-all duration-500 hover:border-accent/40 cursor-pointer",
                                                 isHero ? "md:col-span-2 md:row-span-2" : "md:col-span-1"
                                             )}
-                                            id={`project-card-${project.id}`} // Hook for FLIP
+                                            id={`project-card-${project.id}`}
                                         >
                                             {/* Background Image / Gradient Placeholder */}
                                             <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent z-10" />

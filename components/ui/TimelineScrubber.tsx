@@ -2,6 +2,7 @@
 
 import { cn } from '../../lib/cn';
 import { useRef, useEffect } from 'react';
+import { useCursor } from '../core/cursor/useCursor';
 
 interface TimelineScrubberProps {
     total: number;
@@ -10,8 +11,14 @@ interface TimelineScrubberProps {
 }
 
 export default function TimelineScrubber({ total, current, onChange }: TimelineScrubberProps) {
+    const { setMode, reset } = useCursor();
+
     return (
-        <div className="flex flex-col items-center gap-2 w-8">
+        <div
+            className="flex flex-col items-center gap-2 w-8"
+            onMouseEnter={() => setMode('drag')}
+            onMouseLeave={() => reset()}
+        >
             {Array.from({ length: total }).map((_, i) => (
                 <button
                     key={i}
