@@ -101,9 +101,16 @@ function CursorRenderer({ state }: { state: CursorState }) {
 
 /* ── CursorController (Provider + Renderer) ────────────────── */
 
+/* ── CursorController (Provider + Renderer) ────────────────── */
+
 export default function CursorController({ children }: { children: ReactNode }) {
     const { motionEnabled, reduceMotion } = useMotion();
     const [state, setState] = useState<CursorState>(CURSOR_DEFAULTS);
+    const [mounted, setMounted] = useState(false);
+
+    useEffect(() => {
+        setMounted(true);
+    }, []);
 
     // Derive `enabled` from motion + pointer
     useEffect(() => {
@@ -122,9 +129,10 @@ export default function CursorController({ children }: { children: ReactNode }) 
         [state, setMode, setLabel, setActive, reset]
     );
 
+    // Don't render cursor elements until mounted to avoid hydration mismatch
     return (
         <CursorContext.Provider value={value}>
-            <CursorRenderer state={state} />
+            {mounted && <CursorRenderer state={state} />}
             {children}
         </CursorContext.Provider>
     );

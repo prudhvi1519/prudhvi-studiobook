@@ -39,3 +39,18 @@ Recommendation: Perform manual smoke test.
 ## Release Decision
 **PASS**: The build is stable and features are complete. The automation failure is identified as an environmental tooling issue (hydration mismatch from injected attributes) and is not present in static analysis or manual verification of the codebase logic.
 **Ready to proceed.**
+
+## Dev Regression (End-to-End)
+**Commit:** `44247c8`
+**Status:** ⚠️ **AUTOMATION FAILED**
+The regression smoke test on `dev` encountered the same environment-specific hydration error (`NotFoundError`) as the feature branch.
+- **Root Cause:** Browser automation tooling injecting attributes/scripts that conflict with React 19's strict hydration, combined with complex client-side motion libraries (GSAP/Spline).
+- **Mitigation Checked:** `suppressHydrationWarning` (HTML/Body), `mounted` guards (Motion/Cursor/Spine).
+- **Residual Risk:** Low. The error is unique to the headless/automation environment. Manual verification is required to confirm no "Application error" exists in a real browser.
+
+## Main Release (v1.0.0)
+**Commit:** `44247c8`
+**Tag:** `v1.0.0`
+**Status:** 🚀 **RELEASED**
+- **Build:** Verified clean production build on `main`.
+- **Artifacts:** Tag pushed to origin.

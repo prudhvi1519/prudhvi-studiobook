@@ -182,6 +182,11 @@ interface SignalSpineProps {
 export default function SignalSpine({ pingSignal = 0 }: SignalSpineProps) {
     const { motionEnabled, reduceMotion } = useMotion();
     const [canRun3D, setCanRun3D] = useState(false);
+    const [mounted, setMounted] = useState(false);
+
+    useEffect(() => {
+        setMounted(true);
+    }, []);
 
     useEffect(() => {
         // Evaluate capabilities on client side only to avoid hydration mismatch
@@ -193,6 +198,8 @@ export default function SignalSpine({ pingSignal = 0 }: SignalSpineProps) {
 
         checkCapabilities();
     }, [motionEnabled, reduceMotion]);
+
+    if (!mounted) return <div className="fixed inset-0 z-0 overflow-hidden" />;
 
     return (
         <div className="fixed inset-0 z-0 overflow-hidden">
