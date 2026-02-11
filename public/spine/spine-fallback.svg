@@ -1,0 +1,52 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 600" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <defs>
+    <linearGradient id="spine-glow" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#6366f1" stop-opacity="0.3"/>
+      <stop offset="50%" stop-color="#a78bfa" stop-opacity="0.6"/>
+      <stop offset="100%" stop-color="#6366f1" stop-opacity="0.2"/>
+    </linearGradient>
+    <filter id="spine-blur">
+      <feGaussianBlur stdDeviation="3" />
+    </filter>
+  </defs>
+
+  <!-- Main spine path — continuous vertical signal wave -->
+  <path
+    id="spine-main"
+    d="M400 0 C380 60, 420 120, 400 180 C380 240, 420 300, 400 360 C380 420, 420 480, 400 540 L400 600"
+    stroke="url(#spine-glow)"
+    stroke-width="2"
+    fill="none"
+  />
+
+  <!-- Outer glow layer -->
+  <path
+    d="M400 0 C380 60, 420 120, 400 180 C380 240, 420 300, 400 360 C380 420, 420 480, 400 540 L400 600"
+    stroke="url(#spine-glow)"
+    stroke-width="8"
+    fill="none"
+    filter="url(#spine-blur)"
+    opacity="0.4"
+  />
+
+  <!-- Branch signals left -->
+  <path d="M400 100 L340 80" stroke="#6366f1" stroke-width="1" opacity="0.3" />
+  <path d="M400 200 L320 220" stroke="#a78bfa" stroke-width="1" opacity="0.25" />
+  <path d="M400 320 L350 340" stroke="#6366f1" stroke-width="1" opacity="0.2" />
+  <path d="M400 450 L330 430" stroke="#a78bfa" stroke-width="1" opacity="0.15" />
+
+  <!-- Branch signals right -->
+  <path d="M400 150 L460 130" stroke="#a78bfa" stroke-width="1" opacity="0.3" />
+  <path d="M400 270 L480 250" stroke="#6366f1" stroke-width="1" opacity="0.25" />
+  <path d="M400 380 L450 400" stroke="#a78bfa" stroke-width="1" opacity="0.2" />
+  <path d="M400 500 L470 520" stroke="#6366f1" stroke-width="1" opacity="0.15" />
+
+  <!-- Node dots along spine -->
+  <circle cx="400" cy="100" r="3" fill="#6366f1" opacity="0.5" />
+  <circle cx="400" cy="200" r="2" fill="#a78bfa" opacity="0.4" />
+  <circle cx="400" cy="320" r="3" fill="#6366f1" opacity="0.3" />
+  <circle cx="400" cy="450" r="2" fill="#a78bfa" opacity="0.35" />
+
+  <!-- Ping target (animated via CSS in SignalSpine.tsx) -->
+  <circle id="spine-ping" cx="400" cy="300" r="6" fill="none" stroke="#a78bfa" stroke-width="1" opacity="0" />
+</svg>

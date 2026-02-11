@@ -5,34 +5,38 @@ import Container from '../core/Container';
 import SceneWrapper from '../core/SceneWrapper';
 import Card from '../ui/Card';
 import Tag from '../ui/Tag';
+import SignalSpine from '../core/SignalSpine';
 import { PROJECTS, Project } from '../../data/projects';
-import { useState } from 'react';
+import { useState, useCallback } from 'react';
 import CaseStudyOverlay from './CaseStudyOverlay';
 import { cn } from '../../lib/cn';
 import { useCursor } from '../core/cursor/useCursor';
 
 export default function Projects() {
     const [selectedProject, setSelectedProject] = useState<Project | null>(null);
+    const [pingCount, setPingCount] = useState(0);
     const { setLabel, setActive, setMode, reset } = useCursor();
 
     const handleProjectClick = (project: Project) => {
         setSelectedProject(project);
     };
 
-    const handleCardEnter = () => {
+    const handleCardEnter = useCallback(() => {
         setActive(true);
         setMode('label');
         setLabel('View');
-    };
+        setPingCount((c) => c + 1); // trigger spine ping
+    }, [setActive, setMode, setLabel]);
 
-    const handleCardLeave = () => {
+    const handleCardLeave = useCallback(() => {
         reset();
-    };
+    }, [reset]);
 
     return (
         <SceneWrapper id="projects-wrapper" scrubLength={1000}>
             {(progress) => (
                 <div className="relative min-h-screen bg-background z-10 py-20">
+                    <SignalSpine pingSignal={pingCount} />
                     <SectionShell id="projects" data-scene="projects">
                         <Container>
                             <h2 className="text-4xl font-display font-bold mb-12 text-foreground">

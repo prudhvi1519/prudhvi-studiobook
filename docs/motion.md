@@ -58,3 +58,44 @@ CursorController (layout.tsx)
 - Labels appear **only** on explicitly marked targets (no blanket hover behavior)
 - GSAP handles smooth interpolation (dot: 80ms, ring: 250ms, label: 120ms)
 - `mix-blend-difference` on dot for visibility on any background
+
+---
+
+## Signal Spine (Phase 5)
+
+A background visual element (3D or 2D SVG) that runs behind the scroll frame.
+
+### Loading Strategy
+
+| Condition | Rendering |
+|-----------|-----------|
+| Motion ON + fine pointer + desktop | **3D** Spline embed (lazy-loaded via IntersectionObserver) |
+| Motion OFF / reduce-motion / touch | **2D** SVG fallback with subtle parallax |
+
+> 3D **never** loads at first paint. It initializes only after the Proof scene is visible (intersection observer with 200px margin).
+
+### SVG Fallback
+
+The fallback (`spine-fallback.svg`) renders a vertical signal wave with:
+- Gradient-stroked main path
+- Branch signal lines
+- Node dots
+- A `ping` circle for interaction feedback
+
+Parallax: On desktop, the SVG subtly shifts with mouse position (±12px, GSAP `power2.out`).
+
+### Interaction Ping
+
+When a project card is hovered:
+- `pingSignal` counter increments
+- SVG: ping circle at center expands (r: 6 → 40) and fades out
+- 3D: placeholder for Spline event trigger (to be wired when scene is ready)
+
+### Brand Assets
+
+| File | Purpose |
+|------|---------|
+| `public/brand/mark.svg` | Single continuous stroke signal/pulse motif |
+| `public/brand/wordmark.svg` | "STUDIOBOOK" monospace wordmark |
+| `public/spine/spine-fallback.svg` | Full SVG fallback for 3D spine |
+
