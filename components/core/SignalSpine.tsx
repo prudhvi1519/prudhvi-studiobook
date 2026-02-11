@@ -181,7 +181,18 @@ interface SignalSpineProps {
 
 export default function SignalSpine({ pingSignal = 0 }: SignalSpineProps) {
     const { motionEnabled, reduceMotion } = useMotion();
-    const canRun3D = motionEnabled && !reduceMotion && !isCoarsePointer();
+    const [canRun3D, setCanRun3D] = useState(false);
+
+    useEffect(() => {
+        // Evaluate capabilities on client side only to avoid hydration mismatch
+        // (SSR thinks isCoarsePointer=true, Client might say false)
+        const checkCapabilities = () => {
+            const safe = motionEnabled && !reduceMotion && !isCoarsePointer();
+            setCanRun3D(safe);
+        };
+
+        checkCapabilities();
+    }, [motionEnabled, reduceMotion]);
 
     return (
         <div className="fixed inset-0 z-0 overflow-hidden">
