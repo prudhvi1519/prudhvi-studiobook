@@ -49,7 +49,7 @@ export default function RootLayout({
 }) {
     return (
         <html lang="en" suppressHydrationWarning className={`${inter.variable} ${spaceGrotesk.variable} ${jetbrainsMono.variable}`}>
-            <body className="antialiased min-h-screen bg-background text-foreground font-sans noise-bg selection:bg-accent selection:text-background">
+            <body suppressHydrationWarning className="antialiased min-h-screen bg-background text-foreground font-sans noise-bg selection:bg-accent selection:text-background">
                 <a href="#main-content" className="skip-link">
                     Skip to content
                 </a>
